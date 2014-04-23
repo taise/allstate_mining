@@ -2,15 +2,7 @@
 
 setwd("~/statistics/data//kaggle/allstate")
 train <- read.csv("./train.csv")
-
-
-timeSegment <- function(time) {
-  time_chr <- as.character(time)
-  if("00:00" <= time_chr && time_chr <  "06:00") { return("midnight") }
-  if("06:00" <= time_chr && time_chr <  "12:00") { return("morning") }
-  if("12:00" <= time_chr && time_chr <  "18:00") { return("daytime") }
-  return("evening")
-}
+source("~/development/R/kaggle/allstate/timeSegment.R")
 
 # set type $ fill NA by 0
 train$customer_ID    <- as.character(train$customer_ID)
