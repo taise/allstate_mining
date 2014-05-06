@@ -67,3 +67,16 @@ validNY.predA <- predict(trainNY.treeA, newdata=validNY, type="class")
 
 score(trainNY.predA, trainNY$rt1_A)
 score(validNY.predA, validNY$rt1_A)
+
+
+### 試しに州のクラスタリングを行ってみる => 試行中
+# scoreはA~Gのセットの選択頻度
+# k-meansは値でなければ扱えないので、カテゴリ変数を州ごとの割合にする
+# 
+# option_pattern <- paste(train$pt1_A, train$pt1_B, train$pt1_C,
+#                         train$pt1_D, train$pt1_E, train$pt1_F,
+#                         train$pt1_G, sep = "")
+# states <- na.omit(data.frame(train$pt1_state, option_pattern))
+# state_freq <-table(states$train.pt1_state, option_pattern)
+# state_freq[1,]
+# state_cluster <- kmeans(cluster_train[,1:2], 2,iter.max = 10, nstart = 1)
