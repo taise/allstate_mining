@@ -9,7 +9,7 @@
 # 一部切り取られた時系列の見積もりtestデータから
 # ユーザごとに自動車保険のオプション(A~G)を予測する
 
-setwd("~/statistics/data//kaggle/allstate")
+setwd("~/statistics/data/kaggle/allstate")
 
 train <- read.csv("./train.csv")
 #test <- read.csv("./test_v2.csv")
