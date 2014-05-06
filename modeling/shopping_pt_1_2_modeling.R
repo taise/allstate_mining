@@ -1,7 +1,9 @@
 library(rpart)
 library(partykit)
-source("~/development/R/kaggle/allstate/set_type_shopping_pt_1_2.R")
-source("~/development/R/kaggle/allstate/score.R")
+
+source_dir <- "~/development/mining/allstate/lib/"
+source(paste(source_dir, "set_type_shopping_pt_1_2.R", sep=""))
+source(paste(source_dir, "score.R", sep=""))
 
 setwd("~/statistics/data//kaggle/allstate")
 train <- read.csv("shopping_pt1-2_train.csv")

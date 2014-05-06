@@ -1,8 +1,12 @@
 #  1行でshopping_pt1,2のデータを並べる
 
-setwd("~/statistics/data//kaggle/allstate")
+setwd("~/statistics/data/kaggle/allstate")
+source_dir <- "~/development/mining/allstate/lib/"
+
+source(paste(source_dir, "timeSegment.R", sep="")
+
 train <- read.csv("./train.csv")
-source("~/development/R/kaggle/allstate/timeSegment.R")
+
 
 # set type $ fill NA by 0
 train$customer_ID    <- as.character(train$customer_ID)
