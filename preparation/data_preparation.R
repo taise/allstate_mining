@@ -3,7 +3,7 @@
 setwd("~/statistics/data/kaggle/allstate")
 source_dir <- "~/development/mining/allstate/lib/"
 
-source(paste(source_dir, "timeSegment.R", sep="")
+source(paste(source_dir, "timeSegment.R", sep=""))
 
 train <- read.csv("./train.csv")
 

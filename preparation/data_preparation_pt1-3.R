@@ -1,7 +1,7 @@
 #  1行でshopping_pt1,2,3のデータを並べる
 
 source_dir <- "~/development/mining/allstate/lib/"
-source(paste(source_dir, "timeSegment.R", sep="")
+source(paste(source_dir, "timeSegment.R", sep=""))
 
 setwd("~/statistics/data/kaggle/allstate")
 train <- read.csv("./train.csv")
@@ -29,7 +29,10 @@ train$G              <- as.factor(train$G)
 pt1 <- subset(train, shopping_pt == 1)
 pt2 <- subset(train, shopping_pt == 2)
 pt3 <- subset(train, shopping_pt == 3 & record_type == 0)
-rt1 <- subset(train, record_type == 1)
+rt1_tmp <- subset(train, record_type == 1)
+rt1 <- data.frame(rt1_tmp$customer_ID, rt1_tmp$A, rt1_tmp$B, rt1_tmp$C, rt1_tmp$D,
+                  rt1_tmp$E, rt1_tmp$F, rt1_tmp$G)
+colnames(rt1) <- c("customer_ID", "A", "B", "C", "D", "E", "F", "G")
 
 merge_by_customer_ID <- function(df1, df2, df1_prefix, df2_prefix) {
   df1$shopping_pt = NULL
@@ -51,6 +54,7 @@ merge_by_customer_ID <- function(df1, df2, df1_prefix, df2_prefix) {
 
 pt1_2 <- merge_by_customer_ID(pt1, pt2, "pt1_", "pt2_")
 pt1_3 <- merge_by_customer_ID(pt1_2, pt3, "", "pt3_")
-pt1_3[1:10,]
+pt_dataset <- merge_by_customer_ID(pt1_3, rt1, "", "rt_")
+pt_dataset[1:10,]
 
-write.csv(pt1_3, "shopping_pt1-3.csv", row.names=F)
+write.csv(pt_dataset, "shoppingPt1-3.csv", row.names=F)
