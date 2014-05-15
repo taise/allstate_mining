@@ -1,6 +1,6 @@
 setTypeShoppingPt_1_2 <- function(df) {
   df$customer_ID        <- as.character(df$customer_ID)
-  df$day                <- as.factor(df$day)
+  df$day                <- as.factor(df$pt1_day)
   df$pt1_segmentedTime  <- as.factor(df$pt1_segmentedTime)
   df$pt1_state          <- as.factor(df$pt1_state)
   df$pt1_homeowner      <- as.factor(df$pt1_homeowner)

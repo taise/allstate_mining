@@ -56,5 +56,7 @@ pt1_2 <- merge_by_customer_ID(pt1, pt2, "pt1_", "pt2_")
 pt1_3 <- merge_by_customer_ID(pt1_2, pt3, "", "pt3_")
 pt_dataset <- merge_by_customer_ID(pt1_3, rt1, "", "rt_")
 pt_dataset[1:10,]
-
 write.csv(pt_dataset, "shoppingPt1-3.csv", row.names=F)
+
+pt1_2_dataset <- merge_by_customer_ID(pt1_2, rt1, "", "rt_")
+write.csv(pt1_2_dataset, "shoppingPt1-2.csv", row.names=F)

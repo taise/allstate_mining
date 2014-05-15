@@ -1,0 +1,35 @@
+Fundamentals analysis
+========================================================
+
+# 1ユーザの見積もり履歴
+# shopping_pt 1 ~ 12
+
+```{r}
+setwd("~/statistics/data/kaggle/allstate")
+train <- read.csv("./train_sample.csv")
+table(train$shopping_pt, train$record_type)
+```
+
+```{r}
+record_type1 <- subset(train, record_type == 1)
+res <- data.frame(
+  record_type1$A,
+  record_type1$B,
+  record_type1$C,
+  record_type1$D,
+  record_type1$E,
+  record_type1$F,
+  record_type1$G
+  )
+res.pattern <- paste(res$A, res$B, res$C, res$D, res$E, res$F, res$G, sep = "")
+res.pattern[1:10]
+(res.pattern_freq <- table(res.pattern))
+str(res.pattern)
+length(unique(res.pattern))
+sort(unique(res.pattern))
+```
+
+```{r fig.width=7, fig.height=6}
+plot(cars)
+```
+
