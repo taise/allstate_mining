@@ -7,12 +7,15 @@ source(paste(source_dir, "score.R", sep=""))
 
 setwd("~/statistics/data/kaggle/allstate")
 train_csv <- read.csv("shoppingPt1-2.csv")
-valid_csv <- read.csv("shopping_pt1-2_valid.csv")
+#valid_csv <- read.csv("shopping_pt1-2_valid.csv")
 
-trainPt1_2 <- setTypeShoppingPt_1_2(train_csv)
-validPt1_2 <- setTypeShoppingPt_1_2(valid_csv)
-trainPt1_2$customer_ID = NULL
-validPt1_2$customer_ID = NULL
+tmpPt <- setTypeShoppingPt_1_2(train_csv)
+tmpPt$customer_ID = NULL
+dfRow <- nrow(tmpPt)
+
+trainPt1_2 <- tmpPt[1:round(dfRow*0.7)-1,]
+validPt1_2 <- tmpPt[round(dfRow*0.7):dfRow,]
+
 #names(trainPt1_2)
 #summary(trainPt1_2)
 #str(trainPt1_2)
@@ -219,33 +222,8 @@ validNY.predG <- predict(trainNY.treeG, newdata=validNY, type="class")
 score(trainNY.predG, trainNY$rt1_G)
 score(validNY.predG, validNY$rt1_G)
 
+
 ####### test
-
-test_csv <- read.csv("test_v2.csv")
-source(paste(source_dir, "timeSegment.R", sep=""))
-
-test_csv$segmentedTime  <- as.factor(mapply(timeSegment, test_csv$time))
-test_csv$risk_factor    <- as.factor(ifelse(is.na(test_csv$risk_factor), 0, test_csv$risk_factor))
-
-pt1 <- subset(test_csv, shopping_pt == 1)
-pt2 <- subset(test_csv, shopping_pt == 2)
-rt1 <- data.frame(pt1$customer_ID, pt1$A, pt1$B, pt1$C, pt1$D, pt1$E, pt1$F, pt1$G)
-colnames(rt1) <- c("customer_ID", "A", "B", "C", "D", "E", "F", "G")
-
-
-merge_by_customer_ID <- function(df1, df2, df1_prefix, df2_prefix) {
-  df1_names <- paste(df1_prefix, names(df1), sep="")
-  df2_names <- paste(df2_prefix, names(df2), sep="")
-  
-  res <- merge(df1, df2, by="customer_ID", all=TRUE)
-  colnames(res) <- c("customer_ID", df1_names[-1], df2_names[-1])
-  return(res)
-}
-
-pt1_2 <- merge_by_customer_ID(pt1, pt2, "pt1_", "pt2_")
-pt_dataset1_2 <- merge_by_customer_ID(pt1_2, rt1, "", "rt1_")
-write.csv(pt_dataset1_2, "test_shopping_pt1_2.csv", row.names=F)
-
 
 test_csv <- read.csv("test_shopping_pt1_2.csv")
 testPt1_2 <- setTypeShoppingPt_1_2(test_csv)
@@ -263,3 +241,4 @@ test_preds <- paste(pred.A, pred.B, pred.C, pred.D, pred.E, pred.F, pred.G, sep 
 test_df <- data.frame(customer_ID=testPt1_2$customer_ID, plan=test_preds)
 write.csv(test_df,file="./20140515_predict_by_NY.csv",row.names=FALSE)
 
+# 0.25278

@@ -15,7 +15,8 @@ train$state          <- as.factor(train$state)
 train$homeowner      <- as.factor(train$homeowner)
 train$risk_factor    <- as.factor(ifelse(is.na(train$risk_factor), 0, train$risk_factor))
 train$married_couple <- as.factor(train$married_couple)
-train$C_previous     <- as.factor(train$C_previous)
+train$C_previous     <- as.factor(ifelse(is.na(train$C_previous), 0, train$C_previous))
+train$duration_previous <- as.factor(ifelse(is.na(train$duration_previous), 0, train$duration_previous)) # if I should change value...
 train$A              <- as.factor(train$A)
 train$B              <- as.factor(train$B)
 train$C              <- as.factor(train$C)
@@ -54,9 +55,9 @@ merge_by_customer_ID <- function(df1, df2, df1_prefix, df2_prefix) {
 
 pt1_2 <- merge_by_customer_ID(pt1, pt2, "pt1_", "pt2_")
 pt1_3 <- merge_by_customer_ID(pt1_2, pt3, "", "pt3_")
-pt_dataset <- merge_by_customer_ID(pt1_3, rt1, "", "rt_")
+pt_dataset <- merge_by_customer_ID(pt1_3, rt1, "", "rt1_")
 pt_dataset[1:10,]
 write.csv(pt_dataset, "shoppingPt1-3.csv", row.names=F)
 
-pt1_2_dataset <- merge_by_customer_ID(pt1_2, rt1, "", "rt_")
+pt1_2_dataset <- merge_by_customer_ID(pt1_2, rt1, "", "rt1_")
 write.csv(pt1_2_dataset, "shoppingPt1-2.csv", row.names=F)
