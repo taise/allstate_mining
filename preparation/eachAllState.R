@@ -1,4 +1,3 @@
-# modeling: training major state or other states
 
 library(rpart)
 library(partykit)
@@ -19,20 +18,23 @@ trainCsv$pt1_day = NULL
 trainCsv$pt2_day = NULL
 
 
-##### major states
+##### all states modeling
 
-modelNY <- modelingByLocation(trainCsv, "NY")
-modelFL <- modelingByLocation(trainCsv, "FL")
-modelPA <- modelingByLocation(trainCsv, "PA")
-modelOH <- modelingByLocation(trainCsv, "OH")
+states <- unique(trainCsv[,"pt1_state"])
+for(state in states) {
+  print(state)
+  result <- paste("model", state, sep="")
+  modelingStr <- paste("modelingByLocation(trainCsv, '", state, "')", sep="")
+  eval(parse(text=paste(result, "<-", modelingStr, sep=" ")))
+}
 
-##### minor states
+##### other states modeling
 
-otherStates <- subset(trainCsv,
-                      pt1_state != "NY" & pt1_state != "FL" &
-                      pt1_state != "PA" & pt1_state != "OH")
-
-modelOther <- modelingAtoG(otherStates)
+trainOther <- trainCsv
+trainOther$pt1_state = NULL
+trainOther$pt2_state = NULL
+  
+modelOther <- modelingAtoG(trainOther)
 
 
 ##### test data prediction
@@ -41,11 +43,11 @@ testPt1_2 <- setTypeShoppingPt_1_2(test_csv)
 
 
 vect <- c("A", "B", "C", "D", "E", "F", "G")
-states <- c("NY", "FL", "PA", "OH")
 predTest <- ""
 nRow <- nrow(testPt1_2)
 
 for(v in vect) {
+  print(v)
   eval(parse(text=paste("predTest.", v, " = ''", sep="")))
   for(i in 1:nRow) {
     state <- testPt1_2[i, "pt1_state"]
@@ -58,7 +60,6 @@ for(v in vect) {
   }
 }
 
-
 predictState <- paste(predTest.A, predTest.B, predTest.C, predTest.D, predTest.E, predTest.F, predTest.G, sep = "")
 testDf <- data.frame(customer_ID=testPt1_2$customer_ID, plan=predictState)
-write.csv(testDf,file="./20140518_predictMajorState.csv",row.names=FALSE)
+write.csv(testDf,file="./20140518_predictAllState.csv",row.names=FALSE)
