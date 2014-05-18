@@ -1,4 +1,4 @@
-# modeling: training each location
+# modeling: training each state
 
 library(rpart)
 library(partykit)
@@ -19,7 +19,6 @@ trainCsv$pt1_day = NULL
 trainCsv$pt2_day = NULL
 
 
-
 ##### major states
 
 modelNY <- modelingByLocation(trainCsv, "NY")
@@ -37,7 +36,6 @@ modelOther <- modelingAtoG(otherStates)
 
 
 ##### test data prediction
-setwd("~/statistics/data/kaggle/allstate")
 test_csv <- read.csv("test_shopping_pt1_2.csv")
 testPt1_2 <- setTypeShoppingPt_1_2(test_csv)
 
@@ -45,19 +43,6 @@ testPt1_2 <- setTypeShoppingPt_1_2(test_csv)
 vect <- c("A", "B", "C", "D", "E", "F", "G")
 states <- c("NY", "FL", "PA", "OH")
 predTest <- ""
-
-#nRow <- nrow(testPt1_2)
-#for(i in 1:nRow) {
-#  state <- testPt1_2[i, "pt1_state"]
-#  if (!is.element(state, states)) {
-#    state <- "Other"
-#  }
-#  result <- paste("predTest.A[", i, "]", sep="")
-#  predStr <- paste("predict(model", state, "$A, newdata=testPt1_2[", i, ",], type='class')", sep="")
-#  eval(parse(text=paste(result, " <- ", predStr, sep="")))
-#}
-
-#write.csv(predTest.A,file="./20140518_predict_A_by_state.csv",row.names=FALSE)
 
 for(v in vect) {
   eval(parse(text=paste("predTest.", v, " = ''", sep="")))
